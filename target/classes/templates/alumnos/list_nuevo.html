@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Alumnos - Sistema SABER PRO</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            --warning-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --info-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920') center/cover;
+            opacity: 0.08;
+            z-index: -1;
+        }
+
+        .page-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-bottom: 4px solid transparent;
+            border-image: var(--primary-gradient) 1;
+        }
+
+        .page-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            border: none;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+        }
+
+        .stat-card.primary::before {
+            background: var(--primary-gradient);
+        }
+
+        .stat-card.success::before {
+            background: var(--success-gradient);
+        }
+
+        .stat-card.warning::before {
+            background: var(--warning-gradient);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .search-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .search-input {
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .btn-search {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 12px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-search:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .btn-new {
+            background: var(--success-gradient);
+            border: none;
+            border-radius: 12px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-new:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(17, 153, 142, 0.4);
+            color: white;
+        }
+
+        .table-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 1.5rem 2rem;
+        }
+
+        .table-header h5 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .table {
+            margin: 0;
+        }
+
+        .table thead th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 1rem;
+        }
+
+        .table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .table tbody tr:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            transform: scale(1.01);
+        }
+
+        .badge-success-custom {
+            background: var(--success-gradient);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .badge-warning-custom {
+            background: var(--warning-gradient);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .btn-action {
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 2px solid;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-state img {
+            width: 150px;
+            opacity: 0.7;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Incluir navbar -->
+    <div th:replace="~{layout/base :: navbar}"></div>
+
+    <div class="container-fluid px-4">
+        <!-- Header -->
+        <div class="page-header animate__animated animate__fadeInDown">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h1 class="page-title">
+                        <i class="fas fa-users me-3"></i>
+                        Gestión de Alumnos
+                    </h1>
+                    <p style="color: #666; margin: 0.5rem 0 0 0; font-size: 1.1rem;">
+                        Administración completa de estudiantes del sistema
+                    </p>
+                </div>
+                <img src="https://media.giphy.com/media/l0HlMPcbD4jdARjRC/giphy.gif" 
+                     style="width: 120px; border-radius: 15px;">
+            </div>
+        </div>
+
+        <!-- Estadísticas -->
+        <div class="row mb-4 animate__animated animate__fadeInUp">
+            <div class="col-md-4 mb-3">
+                <div class="stat-card primary">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stat-number" th:text="${totalAlumnos}" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">0</div>
+                            <p class="mb-0" style="color: #666; font-weight: 600;">Total Estudiantes</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-users" style="font-size: 3rem; color: #667eea; opacity: 0.3;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="stat-card success">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stat-number" th:text="${alumnosConResultados}" style="background: var(--success-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">0</div>
+                            <p class="mb-0" style="color: #666; font-weight: 600;">Con Resultados</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-chart-bar" style="font-size: 3rem; color: #11998e; opacity: 0.3;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="stat-card warning">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stat-number" th:text="${alumnosSinResultados}" style="background: var(--warning-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">0</div>
+                            <p class="mb-0" style="color: #666; font-weight: 600;">Sin Resultados</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #f093fb; opacity: 0.3;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros y acciones -->
+        <div class="search-section animate__animated animate__fadeInUp">
+            <div class="row align-items-center">
+                <div class="col-md-8 mb-3 mb-md-0">
+                    <form class="d-flex" method="get">
+                        <input class="form-control search-input me-2" type="search" name="buscar" 
+                               placeholder="🔍 Buscar por nombre, apellido o documento..." 
+                               th:value="${buscar}">
+                        <button class="btn btn-search" type="submit">
+                            <i class="fas fa-search me-2"></i>Buscar
+                        </button>
+                    </form>
+                </div>
+                <div class="col-md-4 text-end">
+                    <a th:href="@{/alumnos/nuevo}" class="btn btn-new">
+                        <i class="fas fa-plus me-2"></i>Nuevo Alumno
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de alumnos -->
+        <div class="table-card animate__animated animate__fadeInUp">
+            <div class="table-header">
+                <h5><i class="fas fa-list me-2"></i>Lista de Alumnos</h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-id-card me-2"></i>Documento</th>
+                            <th><i class="fas fa-user me-2"></i>Nombre Completo</th>
+                            <th><i class="fas fa-graduation-cap me-2"></i>Programa</th>
+                            <th><i class="fas fa-envelope me-2"></i>Correo</th>
+                            <th><i class="fas fa-check-circle me-2"></i>Estado</th>
+                            <th><i class="fas fa-cog me-2"></i>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="alumno : ${alumnos}">
+                            <td th:text="${alumno.documento}" style="font-weight: 600;">12345678</td>
+                            <td th:text="${alumno.nombreCompleto}">Nombre Apellido</td>
+                            <td th:text="${alumno.programa}">Programa</td>
+                            <td th:text="${alumno.correo}">correo@uts.edu.co</td>
+                            <td>
+                                <span th:if="${alumno.tieneResultados()}" class="badge badge-success-custom">
+                                    <i class="fas fa-check-circle me-1"></i>Con Resultados
+                                </span>
+                                <span th:unless="${alumno.tieneResultados()}" class="badge badge-warning-custom">
+                                    <i class="fas fa-clock me-1"></i>Pendiente
+                                </span>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a th:href="@{/alumnos/detalle/{id}(id=${alumno.id})}" 
+                                       class="btn btn-sm btn-action btn-outline-primary" title="Ver Detalle">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a th:href="@{/alumnos/editar/{id}(id=${alumno.id})}" 
+                                       class="btn btn-sm btn-action btn-outline-warning" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a th:if="${alumno.tieneResultados()}" 
+                                       th:href="@{/resultados/alumno/{id}(id=${alumno.id})}" 
+                                       class="btn btn-sm btn-action btn-outline-success" title="Ver Resultado">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </a>
+                                    <a th:unless="${alumno.tieneResultados()}" 
+                                       th:href="@{/resultados/nuevo(alumnoId=${alumno.id})}" 
+                                       class="btn btn-sm btn-action btn-outline-info" title="Agregar Resultado">
+                                        <i class="fas fa-plus"></i>
+                                    </a>
+                                    <a th:href="@{/alumnos/eliminar/{id}(id=${alumno.id})}" 
+                                       class="btn btn-sm btn-action btn-outline-danger" 
+                                       onclick="return confirm('¿Está seguro de eliminar este alumno?')"
+                                       title="Eliminar">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(alumnos)}">
+                            <td colspan="6" class="empty-state">
+                                <img src="https://media.giphy.com/media/g01ZnwAUvutuK8GIQn/giphy.gif" alt="Empty">
+                                <h5 style="color: #667eea; font-family: 'Poppins', sans-serif; font-weight: 600;">No se encontraron alumnos</h5>
+                                <p style="color: #666; margin-bottom: 1.5rem;">Comienza agregando estudiantes al sistema</p>
+                                <a th:href="@{/alumnos/nuevo}" class="btn btn-new">
+                                    <i class="fas fa-plus me-2"></i>Agregar primer alumno
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div style="margin-bottom: 3rem;"></div>
+    </div>
+
+    <!-- Incluir footer -->
+    <div th:replace="~{layout/base :: footer}"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
