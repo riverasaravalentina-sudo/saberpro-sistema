@@ -1,0 +1,995 @@
+<!DOCTYPE html><!DOCTYPE html><!DOCTYPE html>
+
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head><html lang="es" xmlns:th="http://www.thymeleaf.org"><html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><head><head>
+
+    <title>Gestión de Alumnos - Sistema SABER PRO</title>
+
+        <meta charset="UTF-8">    <meta charset="UTF-8">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>    <title>Gestión de Alumnos - Sistema SABER PRO</title>    <title>Gestión de Alumnos - Sistema SABER PRO</title>
+
+    
+
+    <style>        
+
+        :root {
+
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);    <!-- Bootstrap 5 CSS -->    <!-- Bootstrap 5 CSS -->
+
+            --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+
+            --warning-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+            --info-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+
+        }    <!-- Font Awesome -->    <!-- Font Awesome -->
+
+        
+
+        body {    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+            font-family: 'Inter', sans-serif;
+
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);    <!-- Google Fonts --></head>
+
+            min-height: 100vh;
+
+        }    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"><body>
+
+        
+
+        body::before {    <!-- Animate.css -->    <!-- Incluir navbar -->
+
+            content: '';
+
+            position: fixed;    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>    <div th:replace="layout/base :: navbar"></div>
+
+            top: 0;
+
+            left: 0;    
+
+            width: 100%;
+
+            height: 100%;    <style>    <div class="container-fluid py-4">
+
+            background: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920') center/cover;
+
+            opacity: 0.08;        :root {        <!-- Header -->
+
+            z-index: -1;
+
+        }            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);        <div class="row">
+
+        
+
+        .page-header {            --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);            <div class="col-12">
+
+            background: rgba(255, 255, 255, 0.95);
+
+            backdrop-filter: blur(10px);            --warning-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);                <div class="card bg-gradient-primary text-white mb-4">
+
+            border-radius: 25px;
+
+            padding: 2.5rem;            --info-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);                    <div class="card-body">
+
+            margin: 2rem 0;
+
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);        }                        <h1 class="card-title mb-0">
+
+            border-bottom: 4px solid transparent;
+
+            border-image: var(--primary-gradient) 1;                                    <i class="fas fa-users me-2"></i>
+
+        }
+
+                body {                            Gestión de Alumnos
+
+        .page-title {
+
+            font-family: 'Poppins', sans-serif;            font-family: 'Inter', sans-serif;                        </h1>
+
+            font-weight: 700;
+
+            font-size: 2.5rem;            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);                        <p class="card-text mb-0">Administración completa de estudiantes del sistema</p>
+
+            background: var(--primary-gradient);
+
+            -webkit-background-clip: text;            min-height: 100vh;                    </div>
+
+            -webkit-text-fill-color: transparent;
+
+            background-clip: text;        }                </div>
+
+            margin: 0;
+
+        }                    </div>
+
+        
+
+        .stat-card {        body::before {        </div>
+
+            background: rgba(255, 255, 255, 0.95);
+
+            backdrop-filter: blur(10px);            content: '';
+
+            border-radius: 20px;
+
+            padding: 1.5rem;            position: fixed;        <!-- Estadísticas -->
+
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+
+            transition: all 0.3s ease;            top: 0;        <div class="row mb-4">
+
+            border: none;
+
+            overflow: hidden;            left: 0;            <div class="col-md-3">
+
+            position: relative;
+
+        }            width: 100%;                <div class="card text-white bg-primary">
+
+        
+
+        .stat-card::before {            height: 100%;                    <div class="card-body">
+
+            content: '';
+
+            position: absolute;            background: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920') center/cover;                        <div class="d-flex justify-content-between">
+
+            top: 0;
+
+            left: 0;            opacity: 0.08;                            <div>
+
+            width: 100%;
+
+            height: 4px;            z-index: -1;                                <h4 th:text="${totalAlumnos}">0</h4>
+
+        }
+
+                }                                <p class="mb-0">Total Alumnos</p>
+
+        .stat-card.primary::before {
+
+            background: var(--primary-gradient);                                    </div>
+
+        }
+
+                .page-header {                            <div>
+
+        .stat-card.success::before {
+
+            background: var(--success-gradient);            background: rgba(255, 255, 255, 0.95);                                <i class="fas fa-users fa-2x"></i>
+
+        }
+
+                    backdrop-filter: blur(10px);                            </div>
+
+        .stat-card.warning::before {
+
+            background: var(--warning-gradient);            border-radius: 25px;                        </div>
+
+        }
+
+                    padding: 2.5rem;                    </div>
+
+        .stat-card:hover {
+
+            transform: translateY(-5px);            margin: 2rem 0;                </div>
+
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+
+        }            box-shadow: 0 10px 30px rgba(0,0,0,0.2);            </div>
+
+        
+
+        .stat-number {            border-bottom: 4px solid transparent;            <div class="col-md-3">
+
+            font-size: 2.5rem;
+
+            font-weight: 700;            border-image: var(--primary-gradient) 1;                <div class="card text-white bg-success">
+
+            font-family: 'Poppins', sans-serif;
+
+        }        }                    <div class="card-body">
+
+        
+
+        .search-section {                                <div class="d-flex justify-content-between">
+
+            background: rgba(255, 255, 255, 0.95);
+
+            backdrop-filter: blur(10px);        .page-title {                            <div>
+
+            border-radius: 20px;
+
+            padding: 1.5rem;            font-family: 'Poppins', sans-serif;                                <h4 th:text="${alumnosConResultados}">0</h4>
+
+            margin: 2rem 0;
+
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);            font-weight: 700;                                <p class="mb-0">Con Resultados</p>
+
+        }
+
+                    font-size: 2.5rem;                            </div>
+
+        .search-input {
+
+            border: 2px solid #e0e0e0;            background: var(--primary-gradient);                            <div>
+
+            border-radius: 15px;
+
+            padding: 0.75rem 1.5rem;            -webkit-background-clip: text;                                <i class="fas fa-chart-bar fa-2x"></i>
+
+            transition: all 0.3s ease;
+
+        }            -webkit-text-fill-color: transparent;                            </div>
+
+        
+
+        .search-input:focus {            background-clip: text;                        </div>
+
+            border-color: #667eea;
+
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);            margin: 0;                    </div>
+
+        }
+
+                }                </div>
+
+        .btn-search {
+
+            background: var(--primary-gradient);                    </div>
+
+            border: none;
+
+            border-radius: 12px;        .stat-card {            <div class="col-md-3">
+
+            padding: 0.75rem 2rem;
+
+            font-weight: 600;            background: rgba(255, 255, 255, 0.95);                <div class="card text-white bg-warning">
+
+            color: white;
+
+            transition: all 0.3s ease;            backdrop-filter: blur(10px);                    <div class="card-body">
+
+        }
+
+                    border-radius: 20px;                        <div class="d-flex justify-content-between">
+
+        .btn-search:hover {
+
+            transform: translateY(-2px);            padding: 1.5rem;                            <div>
+
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+
+            color: white;            box-shadow: 0 10px 30px rgba(0,0,0,0.15);                                <h4 th:text="${alumnosSinResultados}">0</h4>
+
+        }
+
+                    transition: all 0.3s ease;                                <p class="mb-0">Sin Resultados</p>
+
+        .btn-new {
+
+            background: var(--success-gradient);            border: none;                            </div>
+
+            border: none;
+
+            border-radius: 12px;            overflow: hidden;                            <div>
+
+            padding: 0.75rem 2rem;
+
+            font-weight: 600;            position: relative;                                <i class="fas fa-exclamation-triangle fa-2x"></i>
+
+            color: white;
+
+            transition: all 0.3s ease;        }                            </div>
+
+        }
+
+                                        </div>
+
+        .btn-new:hover {
+
+            transform: translateY(-2px);        .stat-card::before {                    </div>
+
+            box-shadow: 0 8px 20px rgba(17, 153, 142, 0.4);
+
+            color: white;            content: '';                </div>
+
+        }
+
+                    position: absolute;            </div>
+
+        .table-card {
+
+            background: rgba(255, 255, 255, 0.95);            top: 0;        </div>
+
+            backdrop-filter: blur(10px);
+
+            border-radius: 20px;            left: 0;
+
+            padding: 0;
+
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);            width: 100%;        <!-- Filtros y acciones -->
+
+            overflow: hidden;
+
+        }            height: 4px;        <div class="row mb-4">
+
+        
+
+        .table-header {        }            <div class="col-md-8">
+
+            background: var(--primary-gradient);
+
+            color: white;                        <form class="d-flex" method="get">
+
+            padding: 1.5rem 2rem;
+
+        }        .stat-card.primary::before {                    <input class="form-control me-2" type="search" name="buscar" 
+
+        
+
+        .table-header h5 {            background: var(--primary-gradient);                           placeholder="Buscar por nombre, apellido o documento..." 
+
+            font-family: 'Poppins', sans-serif;
+
+            font-weight: 600;        }                           th:value="${buscar}">
+
+            margin: 0;
+
+        }                            <button class="btn btn-outline-primary" type="submit">
+
+        
+
+        .table {        .stat-card.success::before {                        <i class="fas fa-search"></i> Buscar
+
+            margin: 0;
+
+        }            background: var(--success-gradient);                    </button>
+
+        
+
+        .table thead th {        }                </form>
+
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+            color: white;                    </div>
+
+            font-weight: 600;
+
+            border: none;        .stat-card.warning::before {            <div class="col-md-4 text-end">
+
+            padding: 1rem;
+
+        }            background: var(--warning-gradient);                <a th:href="@{/alumnos/nuevo}" class="btn btn-success">
+
+        
+
+        .table tbody tr {        }                    <i class="fas fa-plus"></i> Nuevo Alumno
+
+            transition: all 0.3s ease;
+
+        }                        </a>
+
+        
+
+        .table tbody tr:hover {        .stat-card:hover {            </div>
+
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+
+            transform: scale(1.01);            transform: translateY(-5px);        </div>
+
+        }
+
+                    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+
+        .badge-success-custom {
+
+            background: var(--success-gradient);        }        <!-- Tabla de alumnos -->
+
+            padding: 0.5rem 1rem;
+
+            border-radius: 10px;                <div class="row">
+
+            font-weight: 600;
+
+        }        .stat-number {            <div class="col-12">
+
+        
+
+        .badge-warning-custom {            font-size: 2.5rem;                <div class="card shadow">
+
+            background: var(--warning-gradient);
+
+            padding: 0.5rem 1rem;            font-weight: 700;                    <div class="card-header">
+
+            border-radius: 10px;
+
+            font-weight: 600;            font-family: 'Poppins', sans-serif;                        <h5 class="mb-0">Lista de Alumnos</h5>
+
+        }
+
+                }                    </div>
+
+        .btn-action {
+
+            border-radius: 8px;                            <div class="card-body p-0">
+
+            transition: all 0.3s ease;
+
+            border: 2px solid;        .search-section {                        <div class="table-responsive">
+
+        }
+
+                    background: rgba(255, 255, 255, 0.95);                            <table class="table table-striped table-hover mb-0">
+
+        .btn-action:hover {
+
+            transform: translateY(-2px);            backdrop-filter: blur(10px);                                <thead class="table-dark">
+
+        }
+
+                    border-radius: 20px;                                    <tr>
+
+        .empty-state {
+
+            text-align: center;            padding: 1.5rem;                                        <th>Documento</th>
+
+            padding: 4rem 2rem;
+
+        }            margin: 2rem 0;                                        <th>Nombre Completo</th>
+
+        
+
+        .empty-state img {            box-shadow: 0 10px 30px rgba(0,0,0,0.15);                                        <th>Programa</th>
+
+            width: 150px;
+
+            opacity: 0.7;        }                                        <th>Correo</th>
+
+            margin-bottom: 1.5rem;
+
+        }                                                <th>Estado SABER PRO</th>
+
+    </style>
+
+</head>        .search-input {                                        <th>Acciones</th>
+
+<body>
+
+    <div th:replace="~{layout/base :: navbar}"></div>            border: 2px solid #e0e0e0;                                    </tr>
+
+
+
+    <div class="container-fluid px-4">            border-radius: 15px;                                </thead>
+
+        <div class="page-header animate__animated animate__fadeInDown">
+
+            <div class="d-flex align-items-center justify-content-between">            padding: 0.75rem 1.5rem;                                <tbody>
+
+                <div>
+
+                    <h1 class="page-title">            transition: all 0.3s ease;                                    <tr th:each="alumno : ${alumnos}">
+
+                        <i class="fas fa-users me-3"></i>
+
+                        Gestión de Alumnos        }                                        <td th:text="${alumno.documento}">12345678</td>
+
+                    </h1>
+
+                    <p style="color: #666; margin: 0.5rem 0 0 0; font-size: 1.1rem;">                                                <td th:text="${alumno.nombreCompleto}">Nombre Apellido</td>
+
+                        Administración completa de estudiantes del sistema
+
+                    </p>        .search-input:focus {                                        <td th:text="${alumno.programa}">Programa</td>
+
+                </div>
+
+                <img src="https://media.giphy.com/media/l0HlMPcbD4jdARjRC/giphy.gif"             border-color: #667eea;                                        <td th:text="${alumno.correo}">correo@uts.edu.co</td>
+
+                     style="width: 120px; border-radius: 15px;">
+
+            </div>            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);                                        <td>
+
+        </div>
+
+        }                                            <span th:if="${alumno.tieneResultados()}" class="badge bg-success">
+
+        <div class="row mb-4 animate__animated animate__fadeInUp">
+
+            <div class="col-md-4 mb-3">                                                        <i class="fas fa-check-circle me-1"></i>Con Resultados
+
+                <div class="stat-card primary">
+
+                    <div class="d-flex justify-content-between align-items-center">        .btn-search {                                            </span>
+
+                        <div>
+
+                            <div class="stat-number" th:text="${totalAlumnos}" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">0</div>            background: var(--primary-gradient);                                            <span th:unless="${alumno.tieneResultados()}" class="badge bg-warning">
+
+                            <p class="mb-0" style="color: #666; font-weight: 600;">Total Estudiantes</p>
+
+                        </div>            border: none;                                                <i class="fas fa-clock me-1"></i>Pendiente
+
+                        <div>
+
+                            <i class="fas fa-users" style="font-size: 3rem; color: #667eea; opacity: 0.3;"></i>            border-radius: 12px;                                            </span>
+
+                        </div>
+
+                    </div>            padding: 0.75rem 2rem;                                        </td>
+
+                </div>
+
+            </div>            font-weight: 600;                                        <td>
+
+            <div class="col-md-4 mb-3">
+
+                <div class="stat-card success">            color: white;                                            <div class="btn-group" role="group">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>            transition: all 0.3s ease;                                                <a th:href="@{/alumnos/detalle/{id}(id=${alumno.id})}" 
+
+                            <div class="stat-number" th:text="${alumnosConResultados}" style="background: var(--success-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">0</div>
+
+                            <p class="mb-0" style="color: #666; font-weight: 600;">Con Resultados</p>        }                                                   class="btn btn-sm btn-outline-primary" title="Ver Detalle">
+
+                        </div>
+
+                        <div>                                                            <i class="fas fa-eye"></i>
+
+                            <i class="fas fa-chart-bar" style="font-size: 3rem; color: #11998e; opacity: 0.3;"></i>
+
+                        </div>        .btn-search:hover {                                                </a>
+
+                    </div>
+
+                </div>            transform: translateY(-2px);                                                <a th:href="@{/alumnos/editar/{id}(id=${alumno.id})}" 
+
+            </div>
+
+            <div class="col-md-4 mb-3">            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);                                                   class="btn btn-sm btn-outline-warning" title="Editar">
+
+                <div class="stat-card warning">
+
+                    <div class="d-flex justify-content-between align-items-center">            color: white;                                                    <i class="fas fa-edit"></i>
+
+                        <div>
+
+                            <div class="stat-number" th:text="${alumnosSinResultados}" style="background: var(--warning-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">0</div>        }                                                </a>
+
+                            <p class="mb-0" style="color: #666; font-weight: 600;">Sin Resultados</p>
+
+                        </div>                                                        <a th:if="${alumno.tieneResultados()}" 
+
+                        <div>
+
+                            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #f093fb; opacity: 0.3;"></i>        .btn-new {                                                   th:href="@{/resultados/alumno/{id}(id=${alumno.id})}" 
+
+                        </div>
+
+                    </div>            background: var(--success-gradient);                                                   class="btn btn-sm btn-outline-success" title="Ver Resultado">
+
+                </div>
+
+            </div>            border: none;                                                    <i class="fas fa-chart-bar"></i>
+
+        </div>
+
+            border-radius: 12px;                                                </a>
+
+        <div class="search-section animate__animated animate__fadeInUp">
+
+            <div class="row align-items-center">            padding: 0.75rem 2rem;                                                <a th:unless="${alumno.tieneResultados()}" 
+
+                <div class="col-md-8 mb-3 mb-md-0">
+
+                    <form class="d-flex" method="get">            font-weight: 600;                                                   th:href="@{/resultados/nuevo(alumnoId=${alumno.id})}" 
+
+                        <input class="form-control search-input me-2" type="search" name="buscar" 
+
+                               placeholder="🔍 Buscar por nombre, apellido o documento..."             color: white;                                                   class="btn btn-sm btn-outline-info" title="Agregar Resultado">
+
+                               th:value="${buscar}">
+
+                        <button class="btn btn-search" type="submit">            transition: all 0.3s ease;                                                    <i class="fas fa-plus"></i>
+
+                            <i class="fas fa-search me-2"></i>Buscar
+
+                        </button>        }                                                </a>
+
+                    </form>
+
+                </div>                                                        <a th:href="@{/alumnos/eliminar/{id}(id=${alumno.id})}" 
+
+                <div class="col-md-4 text-end">
+
+                    <a th:href="@{/alumnos/nuevo}" class="btn btn-new">        .btn-new:hover {                                                   class="btn btn-sm btn-outline-danger" 
+
+                        <i class="fas fa-plus me-2"></i>Nuevo Alumno
+
+                    </a>            transform: translateY(-2px);                                                   onclick="return confirm('¿Está seguro de eliminar este alumno?')"
+
+                </div>
+
+            </div>            box-shadow: 0 8px 20px rgba(17, 153, 142, 0.4);                                                   title="Eliminar">
+
+        </div>
+
+            color: white;                                                    <i class="fas fa-trash"></i>
+
+        <div class="table-card animate__animated animate__fadeInUp">
+
+            <div class="table-header">        }                                                </a>
+
+                <h5><i class="fas fa-list me-2"></i>Lista de Alumnos</h5>
+
+            </div>                                                    </div>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover mb-0">        .table-card {                                        </td>
+
+                    <thead>
+
+                        <tr>            background: rgba(255, 255, 255, 0.95);                                    </tr>
+
+                            <th><i class="fas fa-id-card me-2"></i>Documento</th>
+
+                            <th><i class="fas fa-user me-2"></i>Nombre Completo</th>            backdrop-filter: blur(10px);                                    <tr th:if="${#lists.isEmpty(alumnos)}">
+
+                            <th><i class="fas fa-graduation-cap me-2"></i>Programa</th>
+
+                            <th><i class="fas fa-envelope me-2"></i>Correo</th>            border-radius: 20px;                                        <td colspan="6" class="text-center py-4">
+
+                            <th><i class="fas fa-check-circle me-2"></i>Estado</th>
+
+                            <th><i class="fas fa-cog me-2"></i>Acciones</th>            padding: 0;                                            <i class="fas fa-users fa-3x text-muted mb-3 d-block"></i>
+
+                        </tr>
+
+                    </thead>            box-shadow: 0 10px 30px rgba(0,0,0,0.2);                                            <h5 class="text-muted">No se encontraron alumnos</h5>
+
+                    <tbody>
+
+                        <tr th:each="alumno : ${alumnos}">            overflow: hidden;                                            <p class="text-muted mb-0">
+
+                            <td th:text="${alumno.documento}" style="font-weight: 600;">12345678</td>
+
+                            <td th:text="${alumno.nombreCompleto}">Nombre Apellido</td>        }                                                <a th:href="@{/alumnos/nuevo}" class="btn btn-primary">
+
+                            <td th:text="${alumno.programa}">Programa</td>
+
+                            <td th:text="${alumno.correo}">correo@uts.edu.co</td>                                                            <i class="fas fa-plus me-1"></i>Agregar primer alumno
+
+                            <td>
+
+                                <span th:if="${alumno.tieneResultados()}" class="badge badge-success-custom">        .table-header {                                                </a>
+
+                                    <i class="fas fa-check-circle me-1"></i>Con Resultados
+
+                                </span>            background: var(--primary-gradient);                                            </p>
+
+                                <span th:unless="${alumno.tieneResultados()}" class="badge badge-warning-custom">
+
+                                    <i class="fas fa-clock me-1"></i>Pendiente            color: white;                                        </td>
+
+                                </span>
+
+                            </td>            padding: 1.5rem 2rem;                                    </tr>
+
+                            <td>
+
+                                <div class="btn-group" role="group">        }                                </tbody>
+
+                                    <a th:href="@{/alumnos/detalle/{id}(id=${alumno.id})}" 
+
+                                       class="btn btn-sm btn-action btn-outline-primary" title="Ver Detalle">                                    </table>
+
+                                        <i class="fas fa-eye"></i>
+
+                                    </a>        .table-header h5 {                        </div>
+
+                                    <a th:href="@{/alumnos/editar/{id}(id=${alumno.id})}" 
+
+                                       class="btn btn-sm btn-action btn-outline-warning" title="Editar">            font-family: 'Poppins', sans-serif;                    </div>
+
+                                        <i class="fas fa-edit"></i>
+
+                                    </a>            font-weight: 600;                </div>
+
+                                    <a th:if="${alumno.tieneResultados()}" 
+
+                                       th:href="@{/resultados/alumno/{id}(id=${alumno.id})}"             margin: 0;            </div>
+
+                                       class="btn btn-sm btn-action btn-outline-success" title="Ver Resultado">
+
+                                        <i class="fas fa-chart-bar"></i>        }        </div>
+
+                                    </a>
+
+                                    <a th:unless="${alumno.tieneResultados()}"             </div>
+
+                                       th:href="@{/resultados/nuevo(alumnoId=${alumno.id})}" 
+
+                                       class="btn btn-sm btn-action btn-outline-info" title="Agregar Resultado">        .table {
+
+                                        <i class="fas fa-plus"></i>
+
+                                    </a>            margin: 0;    <!-- Scripts -->
+
+                                    <a th:href="@{/alumnos/eliminar/{id}(id=${alumno.id})}" 
+
+                                       class="btn btn-sm btn-action btn-outline-danger"         }    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+                                       onclick="return confirm('¿Está seguro de eliminar este alumno?')"
+
+                                       title="Eliminar">        </body>
+
+                                        <i class="fas fa-trash"></i>
+
+                                    </a>        .table thead th {</html>
+
+                                </div>            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+                            </td>            color: white;
+
+                        </tr>            font-weight: 600;
+
+                        <tr th:if="${#lists.isEmpty(alumnos)}">            border: none;
+
+                            <td colspan="6" class="empty-state">            padding: 1rem;
+
+                                <img src="https://media.giphy.com/media/g01ZnwAUvutuK8GIQn/giphy.gif" alt="Empty">        }
+
+                                <h5 style="color: #667eea; font-family: 'Poppins', sans-serif; font-weight: 600;">No se encontraron alumnos</h5>        
+
+                                <p style="color: #666; margin-bottom: 1.5rem;">Comienza agregando estudiantes al sistema</p>        .table tbody tr {
+
+                                <a th:href="@{/alumnos/nuevo}" class="btn btn-new">            transition: all 0.3s ease;
+
+                                    <i class="fas fa-plus me-2"></i>Agregar primer alumno        }
+
+                                </a>        
+
+                            </td>        .table tbody tr:hover {
+
+                        </tr>            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+
+                    </tbody>            transform: scale(1.01);
+
+                </table>        }
+
+            </div>        
+
+        </div>        .badge-success-custom {
+
+                    background: var(--success-gradient);
+
+        <div style="margin-bottom: 3rem;"></div>            padding: 0.5rem 1rem;
+
+    </div>            border-radius: 10px;
+
+            font-weight: 600;
+
+    <div th:replace="~{layout/base :: footer}"></div>        }
+
+        
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>        .badge-warning-custom {
+
+</body>            background: var(--warning-gradient);
+
+</html>            padding: 0.5rem 1rem;
+
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        
+        .btn-action {
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 2px solid;
+        }
+        
+        .btn-action:hover {
+            transform: translateY(-2px);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        
+        .empty-state img {
+            width: 150px;
+            opacity: 0.7;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Incluir navbar -->
+    <div th:replace="~{layout/base :: navbar}"></div>
+
+    <div class="container-fluid px-4">
+        <!-- Header -->
+        <div class="page-header animate__animated animate__fadeInDown">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h1 class="page-title">
+                        <i class="fas fa-users me-3"></i>
+                        Gestión de Alumnos
+                    </h1>
+                    <p style="color: #666; margin: 0.5rem 0 0 0; font-size: 1.1rem;">
+                        Administración completa de estudiantes del sistema
+                    </p>
+                </div>
+                <img src="https://media.giphy.com/media/l0HlMPcbD4jdARjRC/giphy.gif" 
+                     style="width: 120px; border-radius: 15px;">
+            </div>
+        </div>
+
+        <!-- Estadísticas -->
+        <div class="row mb-4 animate__animated animate__fadeInUp">
+            <div class="col-md-4 mb-3">
+                <div class="stat-card primary">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stat-number" th:text="${totalAlumnos}" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">0</div>
+                            <p class="mb-0" style="color: #666; font-weight: 600;">Total Estudiantes</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-users" style="font-size: 3rem; color: #667eea; opacity: 0.3;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="stat-card success">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stat-number" th:text="${alumnosConResultados}" style="background: var(--success-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">0</div>
+                            <p class="mb-0" style="color: #666; font-weight: 600;">Con Resultados</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-chart-bar" style="font-size: 3rem; color: #11998e; opacity: 0.3;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="stat-card warning">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stat-number" th:text="${alumnosSinResultados}" style="background: var(--warning-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">0</div>
+                            <p class="mb-0" style="color: #666; font-weight: 600;">Sin Resultados</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #f093fb; opacity: 0.3;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros y acciones -->
+        <div class="search-section animate__animated animate__fadeInUp">
+            <div class="row align-items-center">
+                <div class="col-md-8 mb-3 mb-md-0">
+                    <form class="d-flex" method="get">
+                        <input class="form-control search-input me-2" type="search" name="buscar" 
+                               placeholder="🔍 Buscar por nombre, apellido o documento..." 
+                               th:value="${buscar}">
+                        <button class="btn btn-search" type="submit">
+                            <i class="fas fa-search me-2"></i>Buscar
+                        </button>
+                    </form>
+                </div>
+                <div class="col-md-4 text-end">
+                    <a th:href="@{/alumnos/nuevo}" class="btn btn-new">
+                        <i class="fas fa-plus me-2"></i>Nuevo Alumno
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de alumnos -->
+        <div class="table-card animate__animated animate__fadeInUp">
+            <div class="table-header">
+                <h5><i class="fas fa-list me-2"></i>Lista de Alumnos</h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-id-card me-2"></i>Documento</th>
+                            <th><i class="fas fa-user me-2"></i>Nombre Completo</th>
+                            <th><i class="fas fa-graduation-cap me-2"></i>Programa</th>
+                            <th><i class="fas fa-envelope me-2"></i>Correo</th>
+                            <th><i class="fas fa-check-circle me-2"></i>Estado</th>
+                            <th><i class="fas fa-cog me-2"></i>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="alumno : ${alumnos}">
+                            <td th:text="${alumno.documento}" style="font-weight: 600;">12345678</td>
+                            <td th:text="${alumno.nombreCompleto}">Nombre Apellido</td>
+                            <td th:text="${alumno.programa}">Programa</td>
+                            <td th:text="${alumno.correo}">correo@uts.edu.co</td>
+                            <td>
+                                <span th:if="${alumno.tieneResultados()}" class="badge badge-success-custom">
+                                    <i class="fas fa-check-circle me-1"></i>Con Resultados
+                                </span>
+                                <span th:unless="${alumno.tieneResultados()}" class="badge badge-warning-custom">
+                                    <i class="fas fa-clock me-1"></i>Pendiente
+                                </span>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a th:href="@{/alumnos/detalle/{id}(id=${alumno.id})}" 
+                                       class="btn btn-sm btn-action btn-outline-primary" title="Ver Detalle">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a th:href="@{/alumnos/editar/{id}(id=${alumno.id})}" 
+                                       class="btn btn-sm btn-action btn-outline-warning" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a th:if="${alumno.tieneResultados()}" 
+                                       th:href="@{/resultados/alumno/{id}(id=${alumno.id})}" 
+                                       class="btn btn-sm btn-action btn-outline-success" title="Ver Resultado">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </a>
+                                    <a th:unless="${alumno.tieneResultados()}" 
+                                       th:href="@{/resultados/nuevo(alumnoId=${alumno.id})}" 
+                                       class="btn btn-sm btn-action btn-outline-info" title="Agregar Resultado">
+                                        <i class="fas fa-plus"></i>
+                                    </a>
+                                    <a th:href="@{/alumnos/eliminar/{id}(id=${alumno.id})}" 
+                                       class="btn btn-sm btn-action btn-outline-danger" 
+                                       onclick="return confirm('¿Está seguro de eliminar este alumno?')"
+                                       title="Eliminar">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(alumnos)}">
+                            <td colspan="6" class="empty-state">
+                                <img src="https://media.giphy.com/media/g01ZnwAUvutuK8GIQn/giphy.gif" alt="Empty">
+                                <h5 style="color: #667eea; font-family: 'Poppins', sans-serif; font-weight: 600;">No se encontraron alumnos</h5>
+                                <p style="color: #666; margin-bottom: 1.5rem;">Comienza agregando estudiantes al sistema</p>
+                                <a th:href="@{/alumnos/nuevo}" class="btn btn-new">
+                                    <i class="fas fa-plus me-2"></i>Agregar primer alumno
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div style="margin-bottom: 3rem;"></div>
+    </div>
+
+    <!-- Incluir footer -->
+    <div th:replace="~{layout/base :: footer}"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

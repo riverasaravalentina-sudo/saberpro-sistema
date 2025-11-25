@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Sistema SABER PRO UTS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link th:href="@{/css/custom.css}" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <div th:replace="layout/base :: navbar"></div>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-4">
+                    <i class="fas fa-user-circle"></i> Mi Perfil
+                </h2>
+            </div>
+        </div>
+
+        <!-- Mensaje de error si no se encuentra el alumno -->
+        <div th:if="${error}" class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle"></i> <span th:text="${error}"></span>
+            <p class="mb-0 mt-2">Usuario: <strong th:text="${username}"></strong></p>
+            <p class="mb-0">Por favor contacte al coordinador para vincular su cuenta.</p>
+        </div>
+
+        <!-- Información del estudiante -->
+        <div th:if="${alumno}" class="row">
+            <!-- Datos Personales -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-user"></i> Información Personal</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-borderless">
+                            <tr>
+                                <th width="40%">Documento:</th>
+                                <td><span th:text="${alumno.tipoDocumento}"></span> <span th:text="${alumno.numeroDocumento}"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Nombre Completo:</th>
+                                <td>
+                                    <span th:text="${alumno.primerNombre}"></span>
+                                    <span th:text="${alumno.segundoNombre}"></span>
+                                    <span th:text="${alumno.primerApellido}"></span>
+                                    <span th:text="${alumno.segundoApellido}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Correo:</th>
+                                <td><span th:text="${alumno.correoElectronico}"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Teléfono:</th>
+                                <td><span th:text="${alumno.numeroTelefonico}"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Programa:</th>
+                                <td><span th:text="${alumno.programa}"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Semestre:</th>
+                                <td><span th:text="${alumno.semestre}"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resultado SABER PRO -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="fas fa-graduation-cap"></i> Resultado SABER PRO</h5>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${resultado}">
+                            <div class="text-center mb-3">
+                                <h1 class="display-4 text-primary" th:text="${resultado.puntajeGlobal}"></h1>
+                                <p class="text-muted mb-0">Puntaje Global</p>
+                                <span class="badge bg-info" th:text="${resultado.nivelGlobal}"></span>
+                            </div>
+                            
+                            <hr>
+                            
+                            <h6 class="text-muted mb-3">Competencias Genéricas:</h6>
+                            <table class="table table-sm">
+                                <tr>
+                                    <td><small>Comunicación Escrita:</small></td>
+                                    <td class="text-end"><strong th:text="${resultado.comunicacionEscrita}"></strong></td>
+                                </tr>
+                                <tr>
+                                    <td><small>Razonamiento Cuantitativo:</small></td>
+                                    <td class="text-end"><strong th:text="${resultado.razonamientoCuantitativo}"></strong></td>
+                                </tr>
+                                <tr>
+                                    <td><small>Lectura Crítica:</small></td>
+                                    <td class="text-end"><strong th:text="${resultado.lecturaCritica}"></strong></td>
+                                </tr>
+                                <tr>
+                                    <td><small>Competencias Ciudadanas:</small></td>
+                                    <td class="text-end"><strong th:text="${resultado.competenciasCiudadanas}"></strong></td>
+                                </tr>
+                                <tr>
+                                    <td><small>Inglés:</small></td>
+                                    <td class="text-end">
+                                        <strong th:text="${resultado.ingles}"></strong>
+                                        <span class="badge bg-secondary ms-1" th:text="${resultado.nivelIngles}"></span>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <h6 class="text-muted mb-3 mt-4">Competencias Específicas:</h6>
+                            <table class="table table-sm">
+                                <tr>
+                                    <td><small>Formulación de Proyectos:</small></td>
+                                    <td class="text-end"><strong th:text="${resultado.formulacionProyectos}"></strong></td>
+                                </tr>
+                                <tr>
+                                    <td><small>Pensamiento Científico:</small></td>
+                                    <td class="text-end"><strong th:text="${resultado.pensamientoCientifico}"></strong></td>
+                                </tr>
+                                <tr>
+                                    <td><small>Diseño de Software:</small></td>
+                                    <td class="text-end"><strong th:text="${resultado.diseñoSoftware}"></strong></td>
+                                </tr>
+                            </table>
+
+                            <p class="text-muted mb-0 mt-3">
+                                <small><i class="fas fa-calendar"></i> Fecha: <span th:text="${resultado.fechaPresentacion}"></span></small><br>
+                                <small><i class="fas fa-hashtag"></i> Registro: <span th:text="${resultado.numeroRegistro}"></span></small>
+                            </p>
+                        </div>
+                        <div th:unless="${resultado}" class="text-center py-5 text-muted">
+                            <i class="fas fa-clipboard-list fa-3x mb-3"></i>
+                            <p>No has presentado las pruebas SABER PRO o aún no se han registrado tus resultados.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Beneficios -->
+            <div th:if="${beneficio}" class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header text-white" th:classappend="${beneficio.color == 'danger' ? 'bg-danger' : beneficio.color == 'success' ? 'bg-success' : beneficio.color == 'primary' ? 'bg-primary' : 'bg-info'}">
+                        <h5 class="mb-0"><i class="fas fa-gift"></i> Beneficio de Graduación</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h4 th:text="${beneficio.beneficio}"></h4>
+                                <p class="mb-0 text-muted" th:text="${beneficio.descripcion}"></p>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div th:if="${beneficio.puedeGraduarse}">
+                                    <i class="fas fa-check-circle fa-4x text-success"></i>
+                                    <p class="mt-2 mb-0"><strong>PUEDE GRADUARSE</strong></p>
+                                </div>
+                                <div th:unless="${beneficio.puedeGraduarse}">
+                                    <i class="fas fa-times-circle fa-4x text-danger"></i>
+                                    <p class="mt-2 mb-0"><strong>NO PUEDE GRADUARSE</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <a th:href="@{/dashboard}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Volver al Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="layout/base :: footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

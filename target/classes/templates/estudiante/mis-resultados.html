@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Resultados - Sistema SABER PRO UTS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link th:href="@{/css/custom.css}" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <div th:replace="layout/base :: navbar"></div>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-4">
+                    <i class="fas fa-chart-line"></i> Mis Resultados SABER PRO
+                </h2>
+            </div>
+        </div>
+
+        <!-- Mensaje de error si no se encuentra el alumno -->
+        <div th:if="${error}" class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle"></i> <span th:text="${error}"></span>
+            <p class="mb-0">Por favor contacte al coordinador para vincular su cuenta.</p>
+        </div>
+
+        <!-- Información del estudiante y resultados -->
+        <div th:if="${alumno}">
+            <!-- Información básica del estudiante -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-user"></i> Información del Estudiante</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="mb-2"><strong>Nombre:</strong> <span th:text="${alumno.nombreCompleto}"></span></p>
+                            <p class="mb-2"><strong>Documento:</strong> <span th:text="${alumno.tipoDocumento}"></span> <span th:text="${alumno.numeroDocumento}"></span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-2"><strong>Programa:</strong> <span th:text="${alumno.programa}"></span></p>
+                            <p class="mb-2"><strong>Semestre:</strong> <span th:text="${alumno.semestre}"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resultados SABER PRO -->
+            <div th:if="${resultados != null && !resultados.isEmpty()}">
+                <div th:each="resultado : ${resultados}" class="card shadow-sm mb-4">
+                    <div class="card-header" 
+                         th:classappend="${resultado.estado == 'VALIDO' ? 'bg-success text-white' : 'bg-warning'}">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">
+                                <i class="fas fa-graduation-cap"></i> 
+                                Resultado - <span th:text="${resultado.numeroRegistro}"></span>
+                            </h5>
+                            <span class="badge" 
+                                  th:classappend="${resultado.estado == 'VALIDO' ? 'bg-light text-success' : 'bg-light text-warning'}"
+                                  th:text="${resultado.estado}"></span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${resultado.estado == 'VALIDO'}">
+                            <!-- Puntaje Global -->
+                            <div class="text-center mb-4">
+                                <h1 class="display-3 text-primary mb-0" th:text="${resultado.puntajeGlobal}"></h1>
+                                <p class="text-muted mb-1">Puntaje Global</p>
+                                <span class="badge bg-info fs-6" th:text="${resultado.nivelGlobal}"></span>
+                            </div>
+
+                            <hr>
+
+                            <!-- Competencias Genéricas -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <h5 class="text-primary mb-3">
+                                        <i class="fas fa-book"></i> Competencias Genéricas
+                                    </h5>
+                                </div>
+                                <div class="col-md-6 col-lg-4 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-pen-fancy fa-2x text-primary mb-2"></i>
+                                            <h6 class="card-title">Comunicación Escrita</h6>
+                                            <h3 class="text-primary" th:text="${resultado.comunicacionEscrita}"></h3>
+                                            <span class="badge bg-secondary" th:text="${resultado.comunicacionEscritaNivel}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-4 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-calculator fa-2x text-success mb-2"></i>
+                                            <h6 class="card-title">Razonamiento Cuantitativo</h6>
+                                            <h3 class="text-success" th:text="${resultado.razonamientoCuantitativo}"></h3>
+                                            <span class="badge bg-secondary" th:text="${resultado.razonamientoCuantitativoNivel}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-4 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-book-reader fa-2x text-info mb-2"></i>
+                                            <h6 class="card-title">Lectura Crítica</h6>
+                                            <h3 class="text-info" th:text="${resultado.lecturaCritica}"></h3>
+                                            <span class="badge bg-secondary" th:text="${resultado.lecturaCriticaNivel}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-4 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-users fa-2x text-warning mb-2"></i>
+                                            <h6 class="card-title">Competencias Ciudadanas</h6>
+                                            <h3 class="text-warning" th:text="${resultado.competenciasCiudadanas}"></h3>
+                                            <span class="badge bg-secondary" th:text="${resultado.competenciasCiudadanasNivel}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-4 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-language fa-2x text-danger mb-2"></i>
+                                            <h6 class="card-title">Inglés</h6>
+                                            <h3 class="text-danger" th:text="${resultado.ingles}"></h3>
+                                            <span class="badge bg-secondary" th:text="${resultado.inglesNivel}"></span>
+                                            <br>
+                                            <span class="badge bg-primary mt-2" th:text="${resultado.nivelIngles}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <!-- Competencias Específicas -->
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <h5 class="text-success mb-3">
+                                        <i class="fas fa-laptop-code"></i> Competencias Específicas - Ingeniería de Sistemas
+                                    </h5>
+                                </div>
+                                <div class="col-md-6 col-lg-4 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-project-diagram fa-2x text-primary mb-2"></i>
+                                            <h6 class="card-title">Formulación de Proyectos</h6>
+                                            <h3 class="text-primary" th:text="${resultado.formulacionProyectos}"></h3>
+                                            <span class="badge bg-secondary" th:text="${resultado.formulacionProyectosNivel}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-4 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-flask fa-2x text-success mb-2"></i>
+                                            <h6 class="card-title">Pensamiento Científico</h6>
+                                            <h3 class="text-success" th:text="${resultado.pensamientoCientifico}"></h3>
+                                            <span class="badge bg-secondary" th:text="${resultado.pensamientoCientificoNivel}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-4 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-code fa-2x text-info mb-2"></i>
+                                            <h6 class="card-title">Diseño de Software</h6>
+                                            <h3 class="text-info" th:text="${resultado.diseñoSoftware}"></h3>
+                                            <span class="badge bg-secondary" th:text="${resultado.diseñoSoftwareNivel}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Información adicional -->
+                            <div class="alert alert-info mt-3">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <i class="fas fa-calendar-alt"></i> 
+                                        <strong>Fecha de Presentación:</strong> 
+                                        <span th:text="${resultado.fechaPresentacion}"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <i class="fas fa-clipboard-list"></i> 
+                                        <strong>Periodo:</strong> 
+                                        <span th:text="${resultado.periodoAcademico}"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <i class="fas fa-hashtag"></i> 
+                                        <strong>Registro:</strong> 
+                                        <span th:text="${resultado.numeroRegistro}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Si el resultado está anulado -->
+                        <div th:if="${resultado.estado != 'VALIDO'}" class="text-center py-4">
+                            <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                            <h5>Este resultado ha sido ANULADO</h5>
+                            <p class="text-muted">Por favor comuníquese con la coordinación para más información.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Si no tiene resultados -->
+            <div th:if="${resultados == null || resultados.isEmpty()}" class="card shadow-sm">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-clipboard-list fa-4x text-muted mb-4"></i>
+                    <h4 class="text-muted">No hay resultados registrados</h4>
+                    <p class="mb-0">Aún no has presentado las pruebas SABER PRO o tus resultados no han sido cargados al sistema.</p>
+                    <p class="text-muted mt-2">Por favor contacta a la coordinación para más información.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <a th:href="@{/estudiante/mi-perfil}" class="btn btn-primary me-2">
+                    <i class="fas fa-user"></i> Ver Mi Perfil
+                </a>
+                <a th:href="@{/dashboard}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Volver al Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="layout/base :: footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
