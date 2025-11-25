@@ -104,7 +104,7 @@ public class ResultadoController {
      * Guardar resultado (nuevo o editado)
      */
     @PostMapping("/guardar")
-    public String guardar(@Valid @ModelAttribute("resultado") Resultado resultado, 
+    public String guardar(@Valid @ModelAttribute Resultado resultado, 
                          BindingResult bindingResult, 
                          Model model, 
                          RedirectAttributes redirectAttributes) {

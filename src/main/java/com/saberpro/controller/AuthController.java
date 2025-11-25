@@ -13,8 +13,8 @@ public class AuthController {
      */
     @GetMapping("/login")
     public String login(Model model, 
-                       @RequestParam(value = "error", required = false) String error,
-                       @RequestParam(value = "logout", required = false) String logout) {
+                       @RequestParam(required = false) String error,
+                       @RequestParam(required = false) String logout) {
         
         if (error != null) {
             model.addAttribute("errorMsg", "Credenciales inválidas. Por favor, intente de nuevo.");

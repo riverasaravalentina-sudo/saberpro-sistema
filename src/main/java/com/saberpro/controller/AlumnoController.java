@@ -71,7 +71,7 @@ public class AlumnoController {
      * Guardar alumno (nuevo o editado)
      */
     @PostMapping("/guardar")
-    public String guardar(@Valid @ModelAttribute("alumno") Alumno alumno, 
+    public String guardar(@Valid @ModelAttribute Alumno alumno, 
                          BindingResult result, 
                          Model model, 
                          RedirectAttributes redirectAttributes) {

@@ -39,7 +39,7 @@ public class ResultadoService {
         }
 
         Optional<Alumno> alumno = alumnoRepository.findById(resultado.getAlumno().getId());
-        if (!alumno.isPresent()) {
+        if (alumno.isEmpty()) {
             throw new RuntimeException("No se encontró el alumno especificado");
         }
 
