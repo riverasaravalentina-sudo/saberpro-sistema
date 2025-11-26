@@ -48,14 +48,14 @@ public interface ResultadoRepository extends JpaRepository<Resultado, Long> {
     /**
      * Obtener estadísticas de puntajes (solo resultados válidos)
      */
-    @Query("SELECT AVG(r.puntajeGlobal), MIN(r.puntajeGlobal), MAX(r.puntajeGlobal), COUNT(r) FROM Resultado r WHERE r.estado = 'VALIDO'")
-    Object[] getEstadisticasPuntajeGlobal();
+    @Query("SELECT AVG(r.puntajeGlobal), MIN(r.puntajeGlobal), MAX(r.puntajeGlobal), COUNT(r) FROM Resultado r WHERE r.estado = 'VALIDO' AND r.puntajeGlobal IS NOT NULL")
+    List<Object[]> getEstadisticasPuntajeGlobal();
 
     /**
      * Obtener estadísticas por módulo (solo resultados válidos)
      */
-    @Query("SELECT AVG(r.lecturaCritica), AVG(r.razonamientoCuantitativo), AVG(r.ingles) FROM Resultado r WHERE r.estado = 'VALIDO'")
-    Object[] getPromediosPorModulo();
+    @Query("SELECT AVG(r.lecturaCritica), AVG(r.razonamientoCuantitativo), AVG(r.ingles) FROM Resultado r WHERE r.estado = 'VALIDO' AND r.lecturaCritica IS NOT NULL AND r.razonamientoCuantitativo IS NOT NULL AND r.ingles IS NOT NULL")
+    List<Object[]> getPromediosPorModulo();
 
     /**
      * Contar resultados por nivel de desempeño (solo resultados válidos)
@@ -65,13 +65,14 @@ public interface ResultadoRepository extends JpaRepository<Resultado, Long> {
            "SUM(CASE WHEN r.puntajeGlobal >= 80 AND r.puntajeGlobal <= 150 THEN 1 ELSE 0 END) as minimo, " +
            "SUM(CASE WHEN r.puntajeGlobal >= 151 AND r.puntajeGlobal <= 170 THEN 1 ELSE 0 END) as satisfactorio, " +
            "SUM(CASE WHEN r.puntajeGlobal > 170 THEN 1 ELSE 0 END) as avanzado " +
-           "FROM Resultado r WHERE r.estado = 'VALIDO'")
-    Object[] contarPorNivelDesempeno();
+           "FROM Resultado r WHERE r.estado = 'VALIDO' AND r.puntajeGlobal IS NOT NULL")
+    List<Object[]> contarPorNivelDesempeno();
 
     /**
      * Obtener top 10 mejores resultados (solo resultados válidos)
+     * Se actualiza automáticamente cuando se agregan nuevos resultados
      */
-    @Query("SELECT r FROM Resultado r WHERE r.estado = 'VALIDO' ORDER BY r.puntajeGlobal DESC LIMIT 10")
+    @Query("SELECT r FROM Resultado r WHERE r.estado = 'VALIDO' AND r.puntajeGlobal IS NOT NULL ORDER BY r.puntajeGlobal DESC, r.fechaPresentacion DESC")
     List<Resultado> findTop10ByOrderByPuntajeGlobalDesc();
 
     /**

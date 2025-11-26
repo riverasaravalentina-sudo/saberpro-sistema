@@ -182,7 +182,13 @@
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="#"><i class="fas fa-user-cog me-1"></i> Mi Perfil</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" th:href="@{/logout}"><i class="fas fa-sign-out-alt me-1"></i> Cerrar Sesión</a></li>
+                            <li>
+                                <form th:action="@{/logout}" method="post" style="display: inline;">
+                                    <button type="submit" class="dropdown-item" style="border: none; background: none; cursor: pointer; width: 100%; text-align: left;">
+                                        <i class="fas fa-sign-out-alt me-1"></i> Cerrar Sesión
+                                    </button>
+                                </form>
+                            </li>
                         </ul>
                     </li>
                 </ul>

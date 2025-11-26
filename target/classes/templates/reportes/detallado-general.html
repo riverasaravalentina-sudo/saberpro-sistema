@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte Detallado por Programas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .program-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+            height: 100%;
+        }
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        .program-icon {
+            font-size: 3rem;
+            opacity: 0.7;
+            margin-bottom: 1rem;
+        }
+        .student-count {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #0d6efd;
+        }
+        .program-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #495057;
+            min-height: 2.5rem;
+        }
+        .view-details-btn {
+            width: 100%;
+            margin-top: auto;
+        }
+        .summary-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+        }
+        .summary-number {
+            font-size: 3rem;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="layout/base :: navbar"></div>
+    <div class="container py-4">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1><i class="fas fa-file-invoice me-2"></i>Reporte Detallado por Programas</h1>
+            <a href="/reportes" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Volver a Reportes
+            </a>
+        </div>
+
+        <!-- Summary Card -->
+        <div class="card summary-card mb-4">
+            <div class="card-body text-center py-4">
+                <h3 class="mb-3">
+                    <i class="fas fa-university me-2"></i>Resumen General
+                </h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="summary-number" th:text="${programas != null ? programas.size() : 0}">0</div>
+                        <div class="h5">Programas Académicos</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="summary-number" th:text="${#lists.isEmpty(programas) ? 0 : #aggregates.sum(programas.![#this[1]])}">0</div>
+                        <div class="h5">Total de Estudiantes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Programs Grid -->
+        <div th:if="${programas != null and !programas.isEmpty()}" class="row g-4 mb-4">
+            <div th:each="programa : ${programas}" class="col-md-6 col-lg-4">
+                <div class="card program-card">
+                    <div class="card-body d-flex flex-column text-center">
+                        <div class="program-icon">
+                            <i class="fas fa-graduation-cap text-primary"></i>
+                        </div>
+                        <div class="student-count" th:text="${programa[1]}">0</div>
+                        <div class="program-name mb-3" th:text="${programa[0]}">Nombre del Programa</div>
+                        <div class="text-muted small mb-3">
+                            <i class="fas fa-users me-1"></i>
+                            <span th:text="${programa[1] == 1 ? 'estudiante' : 'estudiantes'}">estudiantes</span>
+                        </div>
+                        <a th:href="@{/reportes/detallado(programa=${programa[0]})}" 
+                           class="btn btn-primary view-details-btn">
+                            <i class="fas fa-eye me-2"></i>Ver Detalle
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div th:if="${programas == null or programas.isEmpty()}" class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            <strong>No hay programas registrados.</strong> 
+            Aún no se han registrado alumnos en el sistema.
+        </div>
+
+        <!-- Instructions Card -->
+        <div class="card mt-4">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">
+                    <i class="fas fa-question-circle me-2"></i>¿Cómo usar este reporte?
+                </h5>
+            </div>
+            <div class="card-body">
+                <ul class="mb-0">
+                    <li>Cada tarjeta muestra un programa académico y su cantidad de estudiantes matriculados</li>
+                    <li>Haz clic en "Ver Detalle" para acceder al reporte completo del programa</li>
+                    <li>El reporte detallado incluye estadísticas de desempeño, promedios y análisis por módulo</li>
+                    <li>Los programas se muestran en orden alfabético</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div th:replace="layout/base :: footer"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+/* =======================
+   SISTEMA SABER PRO - CUSTOM CSS
+   ======================= */
+
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+    --info-color: #16a085;
+    --light-color: #ecf0f1;
+    --dark-color: #2c3e50;
+}
+
+/* Layout General */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    line-height: 1.6;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+/* Cards personalizadas */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border-radius: 15px 15px 0 0 !important;
+    padding: 1rem 1.5rem;
+}
+
+/* Botones personalizados */
+.btn {
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 8px 20px;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, var(--primary-color), #5dade2);
+    border: none;
+}
+
+.btn-success {
+    background: linear-gradient(45deg, var(--success-color), #58d68d);
+    border: none;
+}
+
+.btn-warning {
+    background: linear-gradient(45deg, var(--warning-color), #f7dc6f);
+    border: none;
+}
+
+.btn-danger {
+    background: linear-gradient(45deg, var(--danger-color), #ec7063);
+    border: none;
+}
+
+.btn-info {
+    background: linear-gradient(45deg, var(--info-color), #48c9b0);
+    border: none;
+}
+
+/* Formularios */
+.form-control {
+    border-radius: 10px;
+    border: 2px solid #e1e8ed;
+    padding: 12px 16px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 8px;
+}
+
+/* Badges y Estados */
+.badge {
+    font-size: 0.85em;
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+/* Tablas */
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(52, 152, 219, 0.1);
+}
+
+/* Alertas */
+.alert {
+    border-radius: 10px;
+    border: none;
+    padding: 1rem 1.5rem;
+}
+
+.alert-success {
+    background: linear-gradient(45deg, #d4edda, #c3e6cb);
+    color: #155724;
+}
+
+.alert-danger {
+    background: linear-gradient(45deg, #f8d7da, #f5c6cb);
+    color: #721c24;
+}
+
+.alert-warning {
+    background: linear-gradient(45deg, #fff3cd, #ffeaa7);
+    color: #856404;
+}
+
+.alert-info {
+    background: linear-gradient(45deg, #d1ecf1, #b8daff);
+    color: #0c5460;
+}
+
+/* Dashboard Cards con efectos */
+.border-left-primary {
+    border-left: 4px solid var(--primary-color) !important;
+}
+
+.border-left-success {
+    border-left: 4px solid var(--success-color) !important;
+}
+
+.border-left-warning {
+    border-left: 4px solid var(--warning-color) !important;
+}
+
+.border-left-info {
+    border-left: 4px solid var(--info-color) !important;
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Estados SABER PRO */
+.estado-pendiente {
+    color: var(--warning-color);
+    background-color: rgba(243, 156, 18, 0.1);
+}
+
+.estado-completo {
+    color: var(--success-color);
+    background-color: rgba(39, 174, 96, 0.1);
+}
+
+.estado-insuficiente {
+    color: var(--danger-color);
+    background-color: rgba(231, 76, 60, 0.1);
+}
+
+/* Niveles de desempeño */
+.nivel-insuficiente {
+    background: linear-gradient(45deg, #ff4757, #ff6b7a);
+    color: white;
+}
+
+.nivel-minimo {
+    background: linear-gradient(45deg, #ffa502, #ffb84d);
+    color: white;
+}
+
+.nivel-satisfactorio {
+    background: linear-gradient(45deg, #2ed573, #7bed9f);
+    color: white;
+}
+
+.nivel-avanzado {
+    background: linear-gradient(45deg, #5352ed, #7bed9f);
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.85rem;
+    }
+    
+    .btn-group .btn {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+    }
+}
+
+/* Loading Spinner */
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+.loading {
+    position: relative;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Utilidades */
+.text-gradient {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)) !important;
+}
+
+.shadow-lg {
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}

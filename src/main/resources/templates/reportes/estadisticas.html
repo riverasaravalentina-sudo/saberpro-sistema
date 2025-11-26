@@ -9,8 +9,285 @@
 <body>
     <div th:replace="layout/base :: navbar"></div>
     <div class="container py-4">
-        <h1><i class="fas fa-chart-line me-2"></i>Estadísticas Generales</h1>
-        <div class="card"><div class="card-body"><p>Estadísticas del sistema</p></div></div>
+        <h1><i class="fas fa-chart-line me-2 text-primary"></i>Estadísticas Generales</h1>
+        <p class="text-muted">Análisis completo del sistema SABER PRO</p>
+        
+        <!-- Estadísticas Básicas -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="card border-primary shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-users fa-3x text-primary mb-2"></i>
+                        <h2 class="mb-0" th:text="${totalAlumnos != null ? totalAlumnos : 0}">0</h2>
+                        <small class="text-muted">Total Alumnos</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-success shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-check-circle fa-3x text-success mb-2"></i>
+                        <h2 class="mb-0" th:text="${alumnosConResultados != null ? alumnosConResultados : 0}">0</h2>
+                        <small class="text-muted">Con Resultados</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-warning shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-clock fa-3x text-warning mb-2"></i>
+                        <h2 class="mb-0" th:text="${alumnosSinResultados != null ? alumnosSinResultados : 0}">0</h2>
+                        <small class="text-muted">Sin Resultados</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-info shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-file-alt fa-3x text-info mb-2"></i>
+                        <h2 class="mb-0" th:text="${totalResultados != null ? totalResultados : 0}">0</h2>
+                        <small class="text-muted">Total Resultados</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estadísticas de Puntajes -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <i class="fas fa-star me-2"></i>Estadísticas de Puntajes Globales
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${totalResultados == 0}" class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>No hay resultados registrados aún.
+                        </div>
+                        <div th:if="${totalResultados > 0}" class="row text-center">
+                            <div class="col-md-4">
+                                <div class="p-3 border rounded">
+                                    <i class="fas fa-chart-bar fa-2x text-primary mb-2"></i>
+                                    <h3 class="mb-0" th:text="${#numbers.formatDecimal(promedioPuntaje, 0, 2)}">0</h3>
+                                    <small class="text-muted">Promedio General</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 border rounded">
+                                    <i class="fas fa-arrow-down fa-2x text-danger mb-2"></i>
+                                    <h3 class="mb-0" th:text="${peorPuntaje}">0</h3>
+                                    <small class="text-muted">Puntaje Mínimo</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 border rounded">
+                                    <i class="fas fa-arrow-up fa-2x text-success mb-2"></i>
+                                    <h3 class="mb-0" th:text="${mejorPuntaje}">0</h3>
+                                    <small class="text-muted">Puntaje Máximo</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Promedios por Módulo -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <i class="fas fa-book me-2"></i>Promedios por Módulo
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${totalResultados == 0}" class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>No hay resultados registrados aún.
+                        </div>
+                        <div th:if="${totalResultados > 0}" class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-book-reader fa-2x text-info me-3"></i>
+                                    <div class="flex-grow-1">
+                                        <small class="text-muted">Lectura Crítica</small>
+                                        <div class="progress" style="height: 25px;">
+                                            <div class="progress-bar bg-info" role="progressbar" 
+                                                 th:style="'width: ' + ${promedioLectura > 0 ? (promedioLectura / 300.0 * 100) : 0} + '%'"
+                                                 th:text="${promedioLectura > 0 ? #numbers.formatDecimal(promedioLectura, 0, 2) : '0'}">0</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-calculator fa-2x text-warning me-3"></i>
+                                    <div class="flex-grow-1">
+                                        <small class="text-muted">Razonamiento Cuantitativo</small>
+                                        <div class="progress" style="height: 25px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" 
+                                                 th:style="'width: ' + ${promedioRazonamiento > 0 ? (promedioRazonamiento / 300.0 * 100) : 0} + '%'"
+                                                 th:text="${promedioRazonamiento > 0 ? #numbers.formatDecimal(promedioRazonamiento, 0, 2) : '0'}">0</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-language fa-2x text-primary me-3"></i>
+                                    <div class="flex-grow-1">
+                                        <small class="text-muted">Inglés</small>
+                                        <div class="progress" style="height: 25px;">
+                                            <div class="progress-bar bg-primary" role="progressbar" 
+                                                 th:style="'width: ' + ${promedioIngles > 0 ? (promedioIngles / 300.0 * 100) : 0} + '%'"
+                                                 th:text="${promedioIngles > 0 ? #numbers.formatDecimal(promedioIngles, 0, 2) : '0'}">0</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Distribución por Nivel de Desempeño -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <i class="fas fa-chart-pie me-2"></i>Distribución por Nivel de Desempeño
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-md-3">
+                                <div class="p-3 bg-danger bg-opacity-10 rounded">
+                                    <i class="fas fa-times-circle fa-2x text-danger mb-2"></i>
+                                    <h3 class="mb-0" th:text="${nivelInsuficiente != null ? nivelInsuficiente : 0}">0</h3>
+                                    <small class="text-muted">Insuficiente</small>
+                                    <div class="progress mt-2" style="height: 10px;">
+                                        <div class="progress-bar bg-danger" role="progressbar" 
+                                             th:style="'width: ' + ${totalResultados > 0 ? (nivelInsuficiente * 100.0 / totalResultados) : 0} + '%'"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3 bg-warning bg-opacity-10 rounded">
+                                    <i class="fas fa-minus-circle fa-2x text-warning mb-2"></i>
+                                    <h3 class="mb-0" th:text="${nivelMinimo != null ? nivelMinimo : 0}">0</h3>
+                                    <small class="text-muted">Mínimo</small>
+                                    <div class="progress mt-2" style="height: 10px;">
+                                        <div class="progress-bar bg-warning" role="progressbar" 
+                                             th:style="'width: ' + ${totalResultados > 0 ? (nivelMinimo * 100.0 / totalResultados) : 0} + '%'"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3 bg-info bg-opacity-10 rounded">
+                                    <i class="fas fa-check-circle fa-2x text-info mb-2"></i>
+                                    <h3 class="mb-0" th:text="${nivelSatisfactorio != null ? nivelSatisfactorio : 0}">0</h3>
+                                    <small class="text-muted">Satisfactorio</small>
+                                    <div class="progress mt-2" style="height: 10px;">
+                                        <div class="progress-bar bg-info" role="progressbar" 
+                                             th:style="'width: ' + ${totalResultados > 0 ? (nivelSatisfactorio * 100.0 / totalResultados) : 0} + '%'"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3 bg-success bg-opacity-10 rounded">
+                                    <i class="fas fa-star fa-2x text-success mb-2"></i>
+                                    <h3 class="mb-0" th:text="${nivelAvanzado != null ? nivelAvanzado : 0}">0</h3>
+                                    <small class="text-muted">Avanzado</small>
+                                    <div class="progress mt-2" style="height: 10px;">
+                                        <div class="progress-bar bg-success" role="progressbar" 
+                                             th:style="'width: ' + ${totalResultados > 0 ? (nivelAvanzado * 100.0 / totalResultados) : 0} + '%'"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Promedios por Programa -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-warning text-dark">
+                        <i class="fas fa-graduation-cap me-2"></i>Promedios por Programa Académico
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${promediosPorPrograma == null || promediosPorPrograma.isEmpty()}" class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>No hay datos de programas disponibles.
+                        </div>
+                        <div th:if="${promediosPorPrograma != null && !promediosPorPrograma.isEmpty()}" class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Programa</th>
+                                        <th class="text-center">Promedio</th>
+                                        <th style="width: 50%;">Visualización</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="promedio : ${promediosPorPrograma}">
+                                        <td th:text="${promedio[0]}">Programa</td>
+                                        <td class="text-center">
+                                            <span class="badge bg-primary" th:text="${#numbers.formatDecimal(promedio[1], 0, 2)}">0</span>
+                                        </td>
+                                        <td>
+                                            <div class="progress" style="height: 25px;">
+                                                <div class="progress-bar" role="progressbar" 
+                                                     th:classappend="${promedio[1] >= 200} ? 'bg-success' : (${promedio[1] >= 180} ? 'bg-info' : (${promedio[1] >= 160} ? 'bg-warning' : 'bg-danger'))"
+                                                     th:style="'width: ' + ${promedio[1] / 300.0 * 100} + '%'"
+                                                     th:text="${#numbers.formatDecimal(promedio[1], 0, 2)}">0</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reporte de Beneficios por Nivel -->
+        <div class="row mb-4" th:if="${reporteNiveles != null && !reporteNiveles.isEmpty()}">
+            <div class="col-md-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-secondary text-white">
+                        <i class="fas fa-gift me-2"></i>Beneficios por Nivel de Desempeño
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Nivel</th>
+                                        <th class="text-center">Cantidad</th>
+                                        <th class="text-center">Beneficio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="reporte : ${reporteNiveles}">
+                                        <td>
+                                            <span class="badge" 
+                                                  th:classappend="${reporte[0] == 'SUPERIOR'} ? 'bg-success' : 
+                                                                 (${reporte[0] == 'SATISFACTORIO'} ? 'bg-info' : 
+                                                                 (${reporte[0] == 'MINIMO'} ? 'bg-warning' : 'bg-danger'))"
+                                                  th:text="${reporte[0]}">NIVEL</span>
+                                        </td>
+                                        <td class="text-center" th:text="${reporte[1]}">0</td>
+                                        <td class="text-center">
+                                            <small class="text-muted" th:text="${reporte[2]}">Descripción</small>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div th:replace="layout/base :: footer"></div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

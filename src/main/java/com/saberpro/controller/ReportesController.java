@@ -89,6 +89,56 @@ public class ReportesController {
      */
     @GetMapping("/estadisticas")
     public String reporteEstadisticas(Model model) {
+        // DEBUG: Ver qué datos tenemos
+        List<com.saberpro.entity.Resultado> todosResultados = resultadoService.listarTodos();
+        System.out.println("========== DEBUG ESTADÍSTICAS ==========");
+        System.out.println("Total resultados en BD: " + todosResultados.size());
+        for (com.saberpro.entity.Resultado r : todosResultados) {
+            System.out.println("Resultado ID: " + r.getId() + 
+                             ", Puntaje: " + r.getPuntajeGlobal() + 
+                             ", Estado: " + r.getEstado() +
+                             ", Lectura: " + r.getLecturaCritica() +
+                             ", Razonamiento: " + r.getRazonamientoCuantitativo() +
+                             ", Inglés: " + r.getIngles());
+        }
+        
+        Object[] statsGlobal = resultadoService.obtenerEstadisticasGenerales();
+        System.out.println("Stats Global Array length: " + (statsGlobal != null ? statsGlobal.length : "null"));
+        if (statsGlobal != null) {
+            // Hibernate devuelve un array dentro de otro array, acceder al primer elemento
+            if (statsGlobal.length > 0 && statsGlobal[0] instanceof Object[]) {
+                Object[] realStats = (Object[]) statsGlobal[0];
+                System.out.println("Real Stats Array length: " + realStats.length);
+                for (int i = 0; i < realStats.length; i++) {
+                    System.out.println("  [" + i + "]: " + realStats[i]);
+                }
+                statsGlobal = realStats; // Usar el array real
+            } else {
+                for (int i = 0; i < statsGlobal.length; i++) {
+                    System.out.println("  [" + i + "]: " + statsGlobal[i]);
+                }
+            }
+        }
+        
+        Object[] statsModulos = resultadoService.obtenerPromediosPorModulo();
+        System.out.println("Stats Modulos Array length: " + (statsModulos != null ? statsModulos.length : "null"));
+        if (statsModulos != null) {
+            // Mismo problema con módulos
+            if (statsModulos.length > 0 && statsModulos[0] instanceof Object[]) {
+                Object[] realStats = (Object[]) statsModulos[0];
+                System.out.println("Real Stats Modulos length: " + realStats.length);
+                for (int i = 0; i < realStats.length; i++) {
+                    System.out.println("  [" + i + "]: " + realStats[i]);
+                }
+                statsModulos = realStats; // Usar el array real
+            } else {
+                for (int i = 0; i < statsModulos.length; i++) {
+                    System.out.println("  [" + i + "]: " + statsModulos[i]);
+                }
+            }
+        }
+        System.out.println("========================================");
+        
         // Estadísticas generales
         model.addAttribute("totalAlumnos", alumnoService.contarTotalAlumnos());
         model.addAttribute("totalResultados", resultadoService.contarTotalResultados());
@@ -96,28 +146,39 @@ public class ReportesController {
         model.addAttribute("alumnosSinResultados", alumnoService.obtenerAlumnosSinResultados().size());
         
         // Estadísticas de puntajes
-        Object[] statsGlobal = resultadoService.obtenerEstadisticasGenerales();
         if (statsGlobal != null && statsGlobal.length >= 4) {
-            model.addAttribute("promedioPuntaje", statsGlobal[0]);
-            model.addAttribute("peorPuntaje", statsGlobal[1]);
-            model.addAttribute("mejorPuntaje", statsGlobal[2]);
+            model.addAttribute("promedioPuntaje", statsGlobal[0] != null ? statsGlobal[0] : 0);
+            model.addAttribute("peorPuntaje", statsGlobal[1] != null ? statsGlobal[1] : 0);
+            model.addAttribute("mejorPuntaje", statsGlobal[2] != null ? statsGlobal[2] : 0);
+        } else {
+            model.addAttribute("promedioPuntaje", 0);
+            model.addAttribute("peorPuntaje", 0);
+            model.addAttribute("mejorPuntaje", 0);
         }
         
         // Promedios por módulo
-        Object[] statsModulos = resultadoService.obtenerPromediosPorModulo();
         if (statsModulos != null && statsModulos.length >= 3) {
-            model.addAttribute("promedioLectura", statsModulos[0]);
-            model.addAttribute("promedioRazonamiento", statsModulos[1]);
-            model.addAttribute("promedioIngles", statsModulos[2]);
+            model.addAttribute("promedioLectura", statsModulos[0] != null ? statsModulos[0] : 0);
+            model.addAttribute("promedioRazonamiento", statsModulos[1] != null ? statsModulos[1] : 0);
+            model.addAttribute("promedioIngles", statsModulos[2] != null ? statsModulos[2] : 0);
+        } else {
+            model.addAttribute("promedioLectura", 0);
+            model.addAttribute("promedioRazonamiento", 0);
+            model.addAttribute("promedioIngles", 0);
         }
         
         // Distribución por nivel de desempeño
         Object[] niveles = resultadoService.contarPorNivelDesempeno();
         if (niveles != null && niveles.length >= 4) {
-            model.addAttribute("nivelInsuficiente", niveles[0]);
-            model.addAttribute("nivelMinimo", niveles[1]);
-            model.addAttribute("nivelSatisfactorio", niveles[2]);
-            model.addAttribute("nivelAvanzado", niveles[3]);
+            model.addAttribute("nivelInsuficiente", niveles[0] != null ? niveles[0] : 0L);
+            model.addAttribute("nivelMinimo", niveles[1] != null ? niveles[1] : 0L);
+            model.addAttribute("nivelSatisfactorio", niveles[2] != null ? niveles[2] : 0L);
+            model.addAttribute("nivelAvanzado", niveles[3] != null ? niveles[3] : 0L);
+        } else {
+            model.addAttribute("nivelInsuficiente", 0L);
+            model.addAttribute("nivelMinimo", 0L);
+            model.addAttribute("nivelSatisfactorio", 0L);
+            model.addAttribute("nivelAvanzado", 0L);
         }
         
         // Reporte de beneficios por nivel

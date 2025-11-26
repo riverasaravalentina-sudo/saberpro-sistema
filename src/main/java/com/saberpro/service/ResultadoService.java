@@ -113,30 +113,36 @@ public class ResultadoService {
 
     /**
      * Obtener top 10 mejores resultados
+     * Se actualiza automáticamente con cada nuevo resultado válido
      */
     public List<Resultado> obtenerTop10() {
-        return resultadoRepository.findTop10ByOrderByPuntajeGlobalDesc();
+        List<Resultado> resultados = resultadoRepository.findTop10ByOrderByPuntajeGlobalDesc();
+        // Limitar a 10 resultados máximo
+        return resultados.size() > 10 ? resultados.subList(0, 10) : resultados;
     }
 
     /**
      * Obtener estadísticas generales
      */
     public Object[] obtenerEstadisticasGenerales() {
-        return resultadoRepository.getEstadisticasPuntajeGlobal();
+        List<Object[]> result = resultadoRepository.getEstadisticasPuntajeGlobal();
+        return result != null && !result.isEmpty() ? result.get(0) : new Object[]{0.0, 0, 0, 0L};
     }
 
     /**
      * Obtener promedios por módulo
      */
     public Object[] obtenerPromediosPorModulo() {
-        return resultadoRepository.getPromediosPorModulo();
+        List<Object[]> result = resultadoRepository.getPromediosPorModulo();
+        return result != null && !result.isEmpty() ? result.get(0) : new Object[]{0.0, 0.0, 0.0};
     }
 
     /**
      * Contar resultados por nivel de desempeño
      */
     public Object[] contarPorNivelDesempeno() {
-        return resultadoRepository.contarPorNivelDesempeno();
+        List<Object[]> result = resultadoRepository.contarPorNivelDesempeno();
+        return result != null && !result.isEmpty() ? result.get(0) : new Object[]{0L, 0L, 0L, 0L};
     }
 
     /**

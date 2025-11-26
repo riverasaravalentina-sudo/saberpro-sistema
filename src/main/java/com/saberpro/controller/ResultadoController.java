@@ -178,7 +178,18 @@ public class ResultadoController {
      */
     @GetMapping("/top10")
     public String top10(Model model) {
-        model.addAttribute("resultados", resultadoService.obtenerTop10());
+        List<Resultado> resultados = resultadoService.obtenerTop10();
+        System.out.println("========== DEBUG TOP 10 ==========");
+        System.out.println("Cantidad de resultados encontrados: " + resultados.size());
+        for (Resultado r : resultados) {
+            System.out.println("Resultado ID: " + r.getId() + 
+                             ", Puntaje: " + r.getPuntajeGlobal() + 
+                             ", Estado: " + r.getEstado() +
+                             ", Alumno: " + (r.getAlumno() != null ? r.getAlumno().getId() : "null"));
+        }
+        System.out.println("==================================");
+        
+        model.addAttribute("resultados", resultados);
         model.addAttribute("titulo", "Top 10 Mejores Resultados");
         return "resultados/top10";
     }

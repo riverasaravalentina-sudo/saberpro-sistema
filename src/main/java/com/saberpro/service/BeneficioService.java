@@ -177,11 +177,22 @@ public class BeneficioService {
         List<BeneficioDTO> beneficios = obtenerTodosBeneficios();
         List<Object[]> reporte = new ArrayList<>();
         
-        // Agrupar por nivel de desempeño
-        long insuficiente = beneficios.stream().filter(b -> "INSUFICIENTE".equals(b.getNivelDesempeno())).count();
-        long minimo = beneficios.stream().filter(b -> "MÍNIMO".equals(b.getNivelDesempeno())).count();
-        long satisfactorio = beneficios.stream().filter(b -> "SATISFACTORIO".equals(b.getNivelDesempeno())).count();
-        long avanzado = beneficios.stream().filter(b -> "AVANZADO".equals(b.getNivelDesempeno())).count();
+        // Agrupar por rango de puntaje (no por nivelDesempeno)
+        long insuficiente = beneficios.stream()
+                .filter(b -> b.getPuntaje() != null && b.getPuntaje() < 80)
+                .count();
+        
+        long minimo = beneficios.stream()
+                .filter(b -> b.getPuntaje() != null && b.getPuntaje() >= 80 && b.getPuntaje() <= 150)
+                .count();
+        
+        long satisfactorio = beneficios.stream()
+                .filter(b -> b.getPuntaje() != null && b.getPuntaje() >= 151 && b.getPuntaje() <= 170)
+                .count();
+        
+        long avanzado = beneficios.stream()
+                .filter(b -> b.getPuntaje() != null && b.getPuntaje() > 170)
+                .count();
         
         reporte.add(new Object[]{"INSUFICIENTE", insuficiente, "NO PUEDE GRADUARSE"});
         reporte.add(new Object[]{"MÍNIMO", minimo, "Exoneración parcial"});

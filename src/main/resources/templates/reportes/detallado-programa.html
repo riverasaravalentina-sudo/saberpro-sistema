@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Reporte - ' + ${reporte.programa}">Reporte Detallado del Programa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .stat-card {
+            transition: transform 0.2s;
+            height: 100%;
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .stat-icon {
+            font-size: 2.5rem;
+            opacity: 0.8;
+        }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            text-transform: uppercase;
+        }
+        .program-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            border-left: 4px solid #667eea;
+            padding-left: 1rem;
+            margin: 2rem 0 1rem 0;
+        }
+        .progress-custom {
+            height: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .benefit-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 0.25rem;
+        }
+        .badge-danger-custom {
+            background-color: #dc3545;
+            color: white;
+        }
+        .badge-warning-custom {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .badge-success-custom {
+            background-color: #28a745;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="layout/base :: navbar"></div>
+    
+    <div class="container py-4">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1><i class="fas fa-file-alt me-2"></i>Reporte Detallado</h1>
+            <a href="/reportes/detallado" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Volver
+            </a>
+        </div>
+
+        <!-- Program Header -->
+        <div class="program-header">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h2 class="mb-2">
+                        <i class="fas fa-graduation-cap me-2"></i>
+                        <span th:text="${reporte.programa}">Nombre del Programa</span>
+                    </h2>
+                    <p class="mb-0">
+                        <i class="fas fa-calendar-alt me-2"></i>
+                        Generado el <span th:text="${#temporals.format(reporte.fechaGeneracion, 'dd/MM/yyyy')}">25/11/2025</span>
+                    </p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <div class="stat-value mb-2" th:text="${reporte.totalAlumnos}">0</div>
+                    <div class="h5 mb-0">Estudiantes Matriculados</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="card stat-card border-primary">
+                    <div class="card-body text-center">
+                        <div class="stat-icon text-primary">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-value text-primary" th:text="${reporte.totalAlumnos}">0</div>
+                        <div class="stat-label">Total Alumnos</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card border-success">
+                    <div class="card-body text-center">
+                        <div class="stat-icon text-success">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-value text-success" th:text="${reporte.alumnosConResultados}">0</div>
+                        <div class="stat-label">Con Resultados</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card border-warning">
+                    <div class="card-body text-center">
+                        <div class="stat-icon text-warning">
+                            <i class="fas fa-hourglass-half"></i>
+                        </div>
+                        <div class="stat-value text-warning" th:text="${reporte.alumnosSinResultados}">0</div>
+                        <div class="stat-label">Sin Resultados</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card border-info">
+                    <div class="card-body text-center">
+                        <div class="stat-icon text-info">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-value text-info" th:text="${reporte.promedioPuntaje != null ? #numbers.formatDecimal(reporte.promedioPuntaje, 1, 2) : 'N/A'}">0.00</div>
+                        <div class="stat-label">Promedio Puntaje</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Distribution Section -->
+        <h3 class="section-title">Distribución de Resultados</h3>
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span><i class="fas fa-check-circle text-success me-2"></i>Con Resultados</span>
+                        <span><strong th:text="${reporte.alumnosConResultados}">0</strong> estudiantes 
+                              (<span th:text="${#numbers.formatDecimal(reporte.porcentajeConResultados, 1, 1)}">0.0</span>%)</span>
+                    </div>
+                    <div class="progress progress-custom">
+                        <div class="progress-bar bg-success" role="progressbar" 
+                             th:style="'width: ' + ${reporte.porcentajeConResultados} + '%'"
+                             th:text="${#numbers.formatDecimal(reporte.porcentajeConResultados, 1, 1)} + '%'">0%</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span><i class="fas fa-hourglass-half text-warning me-2"></i>Sin Resultados</span>
+                        <span><strong th:text="${reporte.alumnosSinResultados}">0</strong> estudiantes 
+                              (<span th:text="${#numbers.formatDecimal(reporte.porcentajeSinResultados, 1, 1)}">0.0</span>%)</span>
+                    </div>
+                    <div class="progress progress-custom">
+                        <div class="progress-bar bg-warning" role="progressbar" 
+                             th:style="'width: ' + ${reporte.porcentajeSinResultados} + '%'"
+                             th:text="${#numbers.formatDecimal(reporte.porcentajeSinResultados, 1, 1)} + '%'">0%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Benefits Section -->
+        <h3 class="section-title">Beneficios de Graduación</h3>
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <div class="p-3">
+                            <div class="benefit-badge badge-danger-custom mb-2">
+                                <i class="fas fa-times-circle me-2"></i>
+                                <span th:text="${reporte.noPuedenGraduarse}">0</span>
+                            </div>
+                            <div class="small text-muted">No Pueden Graduarse</div>
+                            <div class="small">(Puntaje &lt; 80)</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3">
+                            <div class="benefit-badge badge-warning-custom mb-2">
+                                <i class="fas fa-star-half-alt me-2"></i>
+                                <span th:text="${reporte.exoneracionParcial}">0</span>
+                            </div>
+                            <div class="small text-muted">Exoneración Parcial</div>
+                            <div class="small">(Puntaje 80-150)</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3">
+                            <div class="benefit-badge badge-success-custom mb-2">
+                                <i class="fas fa-trophy me-2"></i>
+                                <span th:text="${reporte.exoneracionTotal}">0</span>
+                            </div>
+                            <div class="small text-muted">Beneficios Completos</div>
+                            <div class="small">(Puntaje &gt; 150)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="alert alert-info">
+            <h5 class="alert-heading">
+                <i class="fas fa-info-circle me-2"></i>Resumen Ejecutivo
+            </h5>
+            <p class="mb-2">
+                El programa <strong th:text="${reporte.programa}">Programa</strong> cuenta con 
+                <strong th:text="${reporte.totalAlumnos}">0</strong> estudiantes matriculados.
+            </p>
+            <p class="mb-2" th:if="${reporte.alumnosConResultados != null && reporte.alumnosConResultados > 0}">
+                De estos, <strong th:text="${reporte.alumnosConResultados}">0</strong> ya presentaron la prueba SABER PRO 
+                (<span th:text="${#numbers.formatDecimal(reporte.porcentajeConResultados, 1, 1)}">0.0</span>%), 
+                obteniendo un promedio de <strong th:text="${#numbers.formatDecimal(reporte.promedioPuntaje, 1, 2)}">0.00</strong> puntos.
+            </p>
+            <p class="mb-0" th:if="${reporte.alumnosSinResultados != null && reporte.alumnosSinResultados > 0}">
+                Quedan pendientes <strong th:text="${reporte.alumnosSinResultados}">0</strong> estudiantes por presentar la prueba.
+            </p>
+        </div>
+
+        <!-- Actions -->
+        <div class="text-center mt-4">
+            <a href="/reportes" class="btn btn-primary me-2">
+                <i class="fas fa-chart-bar me-2"></i>Ver Todos los Reportes
+            </a>
+            <a href="/reportes/detallado" class="btn btn-outline-secondary">
+                <i class="fas fa-list me-2"></i>Ver Otros Programas
+            </a>
+        </div>
+    </div>
+
+    <div th:replace="layout/base :: footer"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

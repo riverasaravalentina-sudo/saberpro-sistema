@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Beneficios - Sistema SABER PRO UTS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link th:href="@{/css/custom.css}" rel="stylesheet">
+    <style>
+        .benefit-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+        .benefit-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        .benefit-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .benefit-description {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        .graduation-status {
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+        .score-badge {
+            font-size: 3rem;
+            font-weight: bold;
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div th:replace="layout/base :: navbar"></div>
+
+    <div class="container my-5">
+        <!-- Header -->
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h1 class="display-4 mb-3 animate__animated animate__fadeInDown">
+                    <i class="fas fa-award text-warning"></i>
+                    Mis Beneficios de Graduación
+                </h1>
+                <p class="lead text-muted animate__animated animate__fadeInUp">
+                    Conoce los beneficios que has obtenido por tu desempeño en SABER PRO
+                </p>
+            </div>
+        </div>
+
+        <!-- Mensaje de error si no se encuentra el alumno -->
+        <div th:if="${error}" class="alert alert-warning animate__animated animate__shakeX">
+            <i class="fas fa-exclamation-triangle"></i> <span th:text="${error}"></span>
+            <p class="mb-0 mt-2">Por favor contacte al coordinador para vincular su cuenta.</p>
+        </div>
+
+        <!-- Información del estudiante -->
+        <div th:if="${alumno}" class="animate__animated animate__fadeIn">
+            <!-- Información personal resumida -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h4 class="mb-0">
+                                        <i class="fas fa-user-graduate text-primary"></i>
+                                        <span th:text="${alumno.primerNombre + ' ' + alumno.primerApellido}"></span>
+                                    </h4>
+                                    <p class="mb-0 text-muted">
+                                        <span th:text="${alumno.programa}"></span> | 
+                                        Documento: <span th:text="${alumno.numeroDocumento}"></span>
+                                    </p>
+                                </div>
+                                <div class="col-md-4 text-center">
+                                    <div th:if="${resultado}">
+                                        <span class="score-badge" th:text="${resultado.puntajeGlobal}"></span>
+                                        <p class="mt-2 mb-0"><strong>Puntaje Global</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Beneficio Principal -->
+            <div th:if="${beneficio}" class="row">
+                <div class="col-12">
+                    <div class="benefit-card" th:classappend="${beneficio.color == 'danger' ? 'border-danger' : beneficio.color == 'success' ? 'border-success' : beneficio.color == 'primary' ? 'border-primary' : 'border-info'}">
+                        <div class="card-header text-white py-4" 
+                             th:classappend="${beneficio.color == 'danger' ? 'bg-danger' : beneficio.color == 'success' ? 'bg-success' : beneficio.color == 'primary' ? 'bg-primary' : 'bg-info'}"
+                             th:style="'background: linear-gradient(135deg, ' + ${beneficio.color == 'success' ? '#11998e 0%, #38ef7d 100%' : beneficio.color == 'primary' ? '#667eea 0%, #764ba2 100%' : beneficio.color == 'warning' ? '#f093fb 0%, #f5576c 100%' : '#fa709a 0%, #fee140 100%'} + ');'">
+                            <h3 class="text-center mb-0">
+                                <i class="fas fa-gift"></i>
+                                Tu Beneficio de Graduación
+                            </h3>
+                        </div>
+                        <div class="card-body text-center py-5">
+                            <!-- Icono según el beneficio -->
+                            <div class="benefit-icon" 
+                                 th:classappend="${beneficio.color == 'danger' ? 'text-danger' : beneficio.color == 'success' ? 'text-success' : beneficio.color == 'primary' ? 'text-primary' : 'text-info'}">
+                                <i class="fas" 
+                                   th:classappend="${beneficio.puedeGraduarse ? 'fa-trophy' : 'fa-exclamation-circle'}"></i>
+                            </div>
+
+                            <!-- Título del beneficio -->
+                            <h2 class="benefit-title" 
+                                th:classappend="${beneficio.color == 'danger' ? 'text-danger' : beneficio.color == 'success' ? 'text-success' : beneficio.color == 'primary' ? 'text-primary' : 'text-info'}"
+                                th:text="${beneficio.beneficio}"></h2>
+
+                            <!-- Descripción -->
+                            <p class="benefit-description" th:text="${beneficio.descripcion}"></p>
+
+                            <!-- Estado de graduación -->
+                            <div class="graduation-status" 
+                                 th:classappend="${beneficio.puedeGraduarse ? 'bg-success' : 'bg-danger'}">
+                                <div th:if="${beneficio.puedeGraduarse}">
+                                    <i class="fas fa-check-circle fa-4x text-white mb-3"></i>
+                                    <h3 class="text-white mb-2">¡FELICITACIONES!</h3>
+                                    <p class="text-white mb-0 fs-5">
+                                        <strong>PUEDES GRADUARSE SIN PAGO</strong>
+                                    </p>
+                                    <p class="text-white mt-2 opacity-75">
+                                        Has cumplido con los requisitos necesarios para obtener el beneficio de graduación
+                                    </p>
+                                </div>
+                                <div th:unless="${beneficio.puedeGraduarse}">
+                                    <i class="fas fa-times-circle fa-4x text-white mb-3"></i>
+                                    <h3 class="text-white mb-2">ATENCIÓN</h3>
+                                    <p class="text-white mb-0 fs-5">
+                                        <strong>DEBES PAGAR LOS DERECHOS DE GRADO</strong>
+                                    </p>
+                                    <p class="text-white mt-2 opacity-75">
+                                        Tu puntaje no alcanza el mínimo requerido para el beneficio de graduación gratuita
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Información adicional -->
+                            <div th:if="${resultado}" class="mt-4 p-4 bg-light rounded">
+                                <h5 class="mb-3">Desglose de tu desempeño:</h5>
+                                <div class="row text-start">
+                                    <div class="col-md-6">
+                                        <p class="mb-2">
+                                            <i class="fas fa-globe text-primary"></i>
+                                            <strong>Puntaje Global:</strong> 
+                                            <span class="badge bg-primary" th:text="${resultado.puntajeGlobal}"></span>
+                                            <span class="badge bg-info ms-1" th:text="${resultado.nivelGlobal}"></span>
+                                        </p>
+                                        <p class="mb-2">
+                                            <i class="fas fa-pen text-success"></i>
+                                            <strong>Comunicación Escrita:</strong> 
+                                            <span th:text="${resultado.comunicacionEscrita}"></span>
+                                        </p>
+                                        <p class="mb-2">
+                                            <i class="fas fa-calculator text-warning"></i>
+                                            <strong>Razonamiento Cuantitativo:</strong> 
+                                            <span th:text="${resultado.razonamientoCuantitativo}"></span>
+                                        </p>
+                                        <p class="mb-2">
+                                            <i class="fas fa-book text-info"></i>
+                                            <strong>Lectura Crítica:</strong> 
+                                            <span th:text="${resultado.lecturaCritica}"></span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="mb-2">
+                                            <i class="fas fa-users text-primary"></i>
+                                            <strong>Competencias Ciudadanas:</strong> 
+                                            <span th:text="${resultado.competenciasCiudadanas}"></span>
+                                        </p>
+                                        <p class="mb-2">
+                                            <i class="fas fa-language text-danger"></i>
+                                            <strong>Inglés:</strong> 
+                                            <span th:text="${resultado.ingles}"></span>
+                                            <span class="badge bg-secondary ms-1" th:text="${resultado.nivelIngles}"></span>
+                                        </p>
+                                        <p class="mb-2">
+                                            <i class="fas fa-project-diagram text-success"></i>
+                                            <strong>Formulación de Proyectos:</strong> 
+                                            <span th:text="${resultado.formulacionProyectos}"></span>
+                                        </p>
+                                        <p class="mb-2">
+                                            <i class="fas fa-flask text-info"></i>
+                                            <strong>Pensamiento Científico:</strong> 
+                                            <span th:text="${resultado.pensamientoCientifico}"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mensaje si no tiene resultados -->
+            <div th:unless="${beneficio}" class="row">
+                <div class="col-12">
+                    <div class="card benefit-card border-warning">
+                        <div class="card-body text-center py-5">
+                            <i class="fas fa-clipboard-list fa-5x text-warning mb-4"></i>
+                            <h3 class="text-muted">No hay resultados disponibles</h3>
+                            <p class="lead text-muted">
+                                Aún no has presentado las pruebas SABER PRO o tus resultados no han sido registrados en el sistema.
+                            </p>
+                            <p class="text-muted">
+                                Una vez que tus resultados sean cargados, podrás ver aquí los beneficios a los que tienes derecho.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <a th:href="@{/dashboard}" class="btn btn-secondary btn-lg me-2">
+                    <i class="fas fa-arrow-left"></i> Volver al Dashboard
+                </a>
+                <a th:href="@{/estudiante/mi-perfil}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-user"></i> Ver Mi Perfil Completo
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="layout/base :: footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
